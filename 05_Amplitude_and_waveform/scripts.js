@@ -13,8 +13,6 @@ function preload() {
 
 function setup() {
   const canvas = createCanvas(windowWidth, windowHeight);
-  canvas.mouseClicked(togglePlay);
-  canvas.touchStarted(togglePlay);
   rectMode(CENTER);
   textSize(32);
   textAlign(CENTER);
@@ -31,7 +29,6 @@ function setup() {
 
   binWidth = width / bins;
   audio.setVolume(0.05);
-  audio.play();
 }
 
 function draw() {
@@ -90,12 +87,13 @@ const peakDetected = () => {
   bgColor = color(random(245), random(245), random(245));
 };
 
-function togglePlay() {
+function mouseClicked() {
   if (audio.isPlaying()) {
     audio.pause();
   } else {
-    audio.loop();
+    audio.play();
   }
+  return;
 }
 
 function windowResized() {
