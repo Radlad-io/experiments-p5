@@ -18,7 +18,7 @@ function setup() {
   _text = createGraphics(window.innerWidth, window.innerHeight);
   _text.textFont("IBM Plex Mono");
   _text.textAlign(CENTER);
-  _text.textSize(50);
+  _text.textSize(35);
   _text.fill(3, 7, 11);
   _text.noStroke();
 }
@@ -39,7 +39,7 @@ function draw() {
   myShaders.setUniform("uMouseX", mouseX);
   myShaders.setUniform("uMouseY", mouseY);
 
-  sphere(width / 4, 200, 200);
+  sphere(width < 600 ? width / 3 : width / 4, 200, 200);
 
   push();
   noStroke();
