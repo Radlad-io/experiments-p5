@@ -23,8 +23,23 @@ function setup() {
   _text.noStroke();
 }
 
+let bg = 255;
+let reverse = true;
+
 function draw() {
-  background(255);
+  if (audio.currentTime() > 0) {
+    if (bg <= 0 && reverse) {
+      reverse = false;
+    } else if (bg >= 255 && !reverse) {
+      reverse = true;
+    } else if (bg > 0 && reverse) {
+      bg -= 0.35;
+    } else if (bg < 255 && !reverse) {
+      bg += 0.35;
+    }
+  }
+
+  background(bg);
   fft.analyze();
   const volume = amp.getLevel(); // returns 0 - 1 value
   let freq = fft.getCentroid(); // returns 0 - 255 value
@@ -33,13 +48,11 @@ function draw() {
   const mapF = map(freq, 30, 70, 0, 20);
   const mapA = map(volume, 0, 0.05, 0, 0.5);
 
-  myShaders.setUniform("uTime", frameCount);
+  myShaders.setUniform("uTime", audio.currentTime() * 100);
   myShaders.setUniform("uFrequency", mapF);
   myShaders.setUniform("uAmp", mapA);
   myShaders.setUniform("uMouseX", mouseX);
   myShaders.setUniform("uMouseY", mouseY);
-
-  sphere(width < 600 ? width / 3 : width / 4, 200, 200);
 
   push();
   noStroke();
@@ -53,6 +66,7 @@ function draw() {
     height * 0.5
   );
   pop();
+  sphere(width < 600 ? width / 3 : width / 4, 200, 200);
 }
 
 function windowResized() {
